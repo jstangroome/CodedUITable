@@ -5,12 +5,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DemoWeb.CodedUITests
 {
     [CodedUITest]
-    public class CodedUITest1
+    public class DemoWebTests
     {
         const string TestUrl = "http://localhost:16330/default.aspx";
 
         [TestMethod]
-        public void CodedUITestMethod1()
+        public void SampleTestMethod()
         {
 
             var defaultPage = new Pages.DefaultClasses.Default();
