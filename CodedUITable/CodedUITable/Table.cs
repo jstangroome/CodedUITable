@@ -7,13 +7,13 @@ namespace CodedUITable
 {
     public abstract class Table
     {
-        [PublicAPI]
-        public static bool DefaultAnimate { get; set; }
+        private static bool _defaultAnimate = true;
 
-        [UsedImplicitly]
-        Table()
+        [PublicAPI]
+        public static bool DefaultAnimate
         {
-            DefaultAnimate = true;
+            get { return _defaultAnimate; }
+            set { _defaultAnimate = value; }
         }
 
         private readonly HtmlTable _htmlTable;
@@ -22,7 +22,7 @@ namespace CodedUITable
 
         protected Table(HtmlTable htmlTable, int headerRowCount, int footerRowCount)
         {
-            Animate = DefaultAnimate;
+            Animate = _defaultAnimate;
             _htmlTable = htmlTable;
             _headerRowCount = headerRowCount;
             _footerRowCount = footerRowCount;
