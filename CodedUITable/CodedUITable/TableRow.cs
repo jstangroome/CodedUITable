@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UITesting;
 using Microsoft.VisualStudio.TestTools.UITesting.HtmlControls;
 
@@ -12,11 +13,13 @@ namespace CodedUITable
     public abstract class TableRow
     {
         private HtmlTable _htmlTable;
-        public int RowIndex { get; private set; }
 
         private LazyDictionary<int, HtmlCell> _htmlCellCache;
         private Lazy<ColumnMetadata[]> _columnMetadataCache;
-        private Lazy<ColumnMetadata> _defaultColumnCache; 
+        private Lazy<ColumnMetadata> _defaultColumnCache;
+
+        [PublicAPI]
+        public int RowIndex { get; private set; }
 
         public void Initialize(HtmlTable htmlTable, HtmlCell[] htmlCells)
         {
@@ -40,6 +43,7 @@ namespace CodedUITable
             }
         }
 
+        [PublicAPI]
         public void ResetCache()
         {
             _htmlCellCache = new LazyDictionary<int, HtmlCell>(columnIndex => (HtmlCell)_htmlTable.GetCell(RowIndex, columnIndex));
@@ -47,11 +51,12 @@ namespace CodedUITable
             _defaultColumnCache = new Lazy<ColumnMetadata>(() => GetDefaultColumn(_columnMetadataCache.Value), LazyThreadSafetyMode.PublicationOnly);
         }
 
+        [PublicAPI]
         public void DrawHighlight()
         {
             _htmlTable.GetRow(RowIndex).DrawHighlight();
         }
-
+        
         protected virtual ColumnMetadata[] GetColumnMetadata()
         {
             var rowType = GetType();
@@ -99,11 +104,13 @@ namespace CodedUITable
             return _htmlCellCache.Get(_defaultColumnCache.Value.Index);
         }
 
+        [PublicAPI]
         public void Click()
         {
             Mouse.Click(GetDefaultCell());
         }
 
+        [PublicAPI]
         public void Hover()
         {
             Mouse.Hover(GetDefaultCell());

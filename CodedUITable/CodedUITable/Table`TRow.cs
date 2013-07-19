@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UITesting.HtmlControls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -65,11 +66,13 @@ namespace CodedUITable
             ResetCache();
         }
 
+        [PublicAPI]
         public void ResetCache()
         {
             _rowList = new RowList(this);
         }
 
+        [PublicAPI]
         public IReadOnlyList<TRow> Rows
         {
             get
@@ -78,16 +81,34 @@ namespace CodedUITable
             }
         }
 
-        public void AssertRowExists(Predicate<TRow> rowPredicate, string message)
+        [PublicAPI]
+        public TRow FindRow(Predicate<TRow> rowPredicate)
         {
             foreach (var row in Rows)
             {
-                if (Animate) row.DrawHighlight();
-                if (rowPredicate(row)) return;
+                if (Animate) row.Hover();
+                if (rowPredicate(row))
+                {
+                    if (Animate) row.DrawHighlight();
+                    return row;
+                }
             }
-            throw new AssertFailedException("Row should exist but doesn't. " + message);
+            return null;
         }
 
+        [PublicAPI]
+        public void AssertRowExists(Predicate<TRow> rowPredicate, string message)
+        {
+            if (FindRow(rowPredicate) != null) return;
+            throw new AssertFailedException("Row should exist but does not. " + message);
+        }
+
+        [PublicAPI]
+        public void AssertRowDoesNotExist(Predicate<TRow> rowPredicate, string message)
+        {
+            if (FindRow(rowPredicate) == null) return;
+            throw new AssertFailedException("Row should not exist but does. " + message);
+        }
 
     }
 }

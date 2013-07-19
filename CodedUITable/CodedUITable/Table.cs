@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Linq;
+using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UITesting.HtmlControls;
 
 namespace CodedUITable
 {
     public abstract class Table
     {
+        [PublicAPI]
         public static bool DefaultAnimate { get; set; }
 
+        [UsedImplicitly]
         Table()
         {
             DefaultAnimate = true;
@@ -45,6 +48,7 @@ namespace CodedUITable
             return row.Cells.Cast<HtmlCell>().ToArray();
         }
 
+        [PublicAPI]
         public int RowCount
         {
             get
@@ -53,6 +57,7 @@ namespace CodedUITable
             }
         }
 
+        [PublicAPI]
         public bool Animate { get; set; }
     }
 }

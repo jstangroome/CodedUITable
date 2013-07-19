@@ -1,6 +1,7 @@
 ﻿using System;
 using CodedUITable;
 
+// ReSharper disable once CheckNamespace
 namespace DemoWeb.CodedUITests.Pages.DefaultClasses
 {
     public partial class Default
