@@ -12,6 +12,11 @@ namespace DemoWeb.CodedUITests
         [TestMethod]
         public void SampleTestMethod()
         {
+            // by default the Assert and Find methods on the Table will animate the mouse pointer and highlight matching rows
+            // this can be disabled for all Tables:
+            //  Table.DefaultAnimate = false;
+            // or per table instance:
+            //  var table = new Table<SomeRow>(htmlTable); table.Animate = false;
 
             var defaultPage = new Pages.DefaultClasses.Default();
             defaultPage.UIDemoWebWindowsInternWindow.LaunchUrl(new Uri(TestUrl));
