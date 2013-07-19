@@ -58,7 +58,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodedUITest1.cs" />
+    <Compile Include="DemoWebTests.cs" />
     <Compile Include="Pages\Default.cs">
       <DependentUpon>Default.uitest</DependentUpon>
     </Compile>
