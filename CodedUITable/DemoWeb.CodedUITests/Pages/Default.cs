@@ -6,7 +6,7 @@ namespace DemoWeb.CodedUITests.Pages.DefaultClasses
 {
     public partial class Default
     {
-        public class TheTableRow : TableRow
+        public class PersonRow : TableRow
         {
             [Column(0)]
             public string Name { get { return GetColumnValue(); } }
@@ -30,13 +30,22 @@ namespace DemoWeb.CodedUITests.Pages.DefaultClasses
             }
         }
 
-        private readonly Lazy<Table<TheTableRow>> _theTable;
+        private readonly Lazy<Table<PersonRow>> _theTable;
 
         public Default()
         {
-            _theTable = new Lazy<Table<TheTableRow>>(() => new Table<TheTableRow>(UIDemoWebWindowsInternWindow.UIDemoWebDocument.UITheTable));
+            _theTable = new Lazy<Table<PersonRow>>(() => new Table<PersonRow>(UIDemoWebWindowsInternWindow.UIDemoWebDocument.UITheTable));
         }
 
+        public PersonRow FindPersonRowByName(string name)
+        {
+            return _theTable.Value.FindRow(row => name.Equals(row.Name, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public void AssertAllPersonsAreAdults()
+        {
+            _theTable.Value.AssertRowDoesNotExist(row => row.Age < 18, "All rows should have an Age of 18 or older.");
+        }
     
     }
 }
